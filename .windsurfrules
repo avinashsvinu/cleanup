@@ -1,0 +1,265 @@
+# System Cleanup Master - Windsurf Rules
+
+project_type: python_cli_tool
+framework: rich
+target_os: macos
+
+## Core Principles
+- Safety-first approach: Always confirm before deletion
+- Beautiful UI: Use Rich library for all terminal output
+- User-friendly: Clear messages, progress indicators, emoji
+- Well-documented: Code comments, README, visualizations
+
+## Code Standards
+
+### Python Style
+language: python3.7+
+style_guide: pep8
+max_line_length: 100
+string_quotes: double
+indentation: 4_spaces
+naming:
+  - functions: snake_case
+  - classes: PascalCase
+  - constants: UPPER_SNAKE_CASE
+
+### Imports
+order:
+  - standard_library
+  - third_party (rich, click, psutil)
+  - local_imports
+
+### Type Hints
+use_type_hints: true
+example: |
+  def get_size(self, path: Path) -> int:
+      """Get size of file or directory in bytes"""
+
+## Project Architecture
+
+main_file: cleanup_master.py
+entry_point: CleanupMaster.run()
+
+classes:
+  CleanupMaster:
+    purpose: Main cleanup orchestrator
+    key_methods:
+      - scan_system: Detect clutter
+      - clean_duplicates: Remove duplicate files
+      - clean_caches: Clear cache directories
+      - organize_downloads: Sort files by type
+      - show_summary: Display results
+
+## UI Guidelines
+
+terminal_library: rich
+colors:
+  info: cyan
+  success: green
+  warning: yellow
+  error: red
+  processing: magenta
+
+components:
+  - Progress bars for long operations
+  - Tables for data display
+  - Panels for summaries
+  - Confirm prompts before deletion
+  - Emoji for visual appeal
+
+example_output: |
+  🧹 Cleaning caches...
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%
+  ✓ Cleaned 12 caches (1.4GB freed)
+
+## File Operations
+
+path_library: pathlib
+safety_checks:
+  - Verify file exists before operations
+  - Check permissions
+  - Handle errors gracefully
+  - Never delete without confirmation
+  - Keep backups when appropriate
+
+duplicate_strategy: keep_oldest_file
+cache_threshold: 10MB
+supported_extensions:
+  documents: [.pdf, .doc, .docx, .txt, .xls, .xlsx]
+  images: [.jpg, .jpeg, .png, .gif, .svg]
+  videos: [.mp4, .avi, .mkv, .mov]
+  archives: [.zip, .rar, .7z, .tar, .gz]
+  code: [.py, .js, .html, .css, .java]
+
+## Makefile Integration
+
+prefer_makefile: true
+common_commands:
+  - make run: Interactive mode
+  - make auto: Automatic cleanup
+  - make status: Show disk usage
+  - make clean-cache: Clean caches only
+  - make organize: Sort Downloads
+
+## Testing Strategy
+
+test_approach:
+  - Test with sample files first
+  - Verify size calculations
+  - Check permission handling
+  - Test interruption recovery
+  - Validate statistics
+
+safety_tests:
+  - Confirm prompts work
+  - Verify no data loss
+  - Check error messages
+  - Test cancel operations
+
+## Dependencies
+
+required:
+  - rich: ^13.0 (terminal UI)
+  - click: ^8.0 (CLI framework)
+  - psutil: ^5.9 (system utilities)
+
+python_version: ">=3.7"
+virtual_env: .venv
+
+## Documentation Style
+
+use_emoji: true
+include_mermaid_diagrams: true
+sections:
+  - Overview with ASCII art
+  - Feature list with emoji
+  - Usage examples
+  - Visual workflows
+  - Troubleshooting
+
+example_structure: |
+  ## 🧹 Feature Name
+  Description with emoji
+  
+  ```bash
+  make command-name
+  ```
+  
+  ```mermaid
+  graph TD
+    A --> B
+  ```
+
+## Performance Optimization
+
+scanning:
+  - Use parallel processing when safe
+  - Cache size calculations
+  - Lazy evaluation for large dirs
+  - Stream large operations
+
+memory:
+  - Process files in chunks
+  - Don't load entire files
+  - Clean up temp data
+  - Monitor memory usage
+
+## macOS Specifics
+
+cache_locations:
+  - ~/Library/Caches
+  - ~/Downloads
+  - /tmp
+  - /var/tmp
+
+system_commands:
+  - brew cleanup: Clean Homebrew
+  - sudo operations: System-wide cleanup
+  - security: Keychain integration
+
+permissions:
+  - Handle SIP restrictions
+  - Request sudo only when needed
+  - Respect sandboxing
+  - Check access before operations
+
+## Error Handling
+
+strategy: fail_gracefully
+logging: show_user_friendly_messages
+recovery: continue_on_non_critical_errors
+
+error_types:
+  PermissionError: "❌ Permission denied. Try running with sudo?"
+  FileNotFoundError: "⚠️  File not found, skipping..."
+  OSError: "❌ System error occurred"
+
+## Version Control
+
+commit_style: conventional_commits
+branch_strategy: feature_branches
+pre_commit:
+  - Run tests
+  - Check formatting
+  - Update docs
+
+## AI Assistant Behavior
+
+when_suggesting_code:
+  - Show complete, working examples
+  - Include error handling
+  - Add helpful comments
+  - Use existing patterns
+  - Maintain UI consistency
+
+when_helping_users:
+  - Understand goal first
+  - Suggest Makefile commands
+  - Explain what happens
+  - Show expected output
+  - Provide alternatives
+
+when_adding_features:
+  - Update main class
+  - Add Makefile target
+  - Update documentation
+  - Add visualizations
+  - Write tests
+
+## Common Patterns
+
+progress_bar: |
+  with Progress(console=self.console) as progress:
+      task = progress.add_task("[cyan]Loading...", total=100)
+      progress.advance(task)
+
+confirmation: |
+  if Confirm.ask("Continue?", default=True):
+      # perform action
+
+table_display: |
+  table = Table(title="Results", box=box.ROUNDED)
+  table.add_column("Item", style="cyan")
+  table.add_column("Size", style="green")
+  table.add_row("example", "1.5 GB")
+  console.print(table)
+
+## Future Roadmap
+
+planned_features:
+  - Scheduling support
+  - Web dashboard
+  - Undo functionality
+  - Cloud backup
+  - ML categorization
+  - Multi-user support
+
+## Remember
+
+golden_rules:
+  - Safety first: Confirm before deleting
+  - Beautiful UI: Rich, colors, emoji
+  - User-friendly: Clear messages
+  - Well-tested: Verify everything
+  - Documented: Code and user docs
+  - Maintainable: Clean, readable code
